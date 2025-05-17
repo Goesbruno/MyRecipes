@@ -41,8 +41,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
 
     implementation("io.insert-koin:koin-ktor:3.5.1")
+    implementation("io.insert-koin:koin-logger-slf4j:3.5.1")
 
-    implementation("org.mongodb:mongodb-driver-kotlin-coroutine:4.11.1")
+    implementation("org.mongodb:mongodb-driver-kotlin-coroutine:5.1.0")
 
     implementation("at.favre.lib:bcrypt:0.10.2")
 
