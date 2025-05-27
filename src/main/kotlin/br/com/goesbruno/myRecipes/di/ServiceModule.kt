@@ -1,7 +1,9 @@
 package br.com.goesbruno.myRecipes.di
 
 import br.com.goesbruno.myRecipes.domain.services.password.BCryptPasswordService
+import br.com.goesbruno.myRecipes.domain.services.token.TokenService
 import br.com.goesbruno.myRecipes.domain.services.user.AddUserService
+import br.com.goesbruno.myRecipes.domain.services.user.LoginUserService
 import org.koin.dsl.module
 
 object ServiceModule {
@@ -15,6 +17,13 @@ object ServiceModule {
                 get()
             )
         }
+        single<LoginUserService> { LoginUserService(
+            get(),
+            get(),
+            get(),
+            get()
+        ) }
+        single<TokenService> { TokenService() }
         single<BCryptPasswordService> { BCryptPasswordService() }
     }
 

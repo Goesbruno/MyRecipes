@@ -1,7 +1,9 @@
 package br.com.goesbruno.myRecipes.application.routes
 
 import br.com.goesbruno.myRecipes.application.payloads.requests.AddUserRequest
+import br.com.goesbruno.myRecipes.application.payloads.requests.AuthUserRequest
 import br.com.goesbruno.myRecipes.domain.services.user.AddUserService
+import br.com.goesbruno.myRecipes.domain.services.user.LoginUserService
 import br.com.goesbruno.myRecipes.utils.Constants
 import br.com.goesbruno.myRecipes.utils.ErrorCodes
 
@@ -15,11 +17,36 @@ import io.ktor.server.response.respond
 import io.ktor.server.routing.*
 
 fun Route.usersRoute(
-    addUserService: AddUserService
+    addUserService: AddUserService,
+    loginUserService: LoginUserService
 ){
     route(Constants.USER_ROUTE){
         createUser(addUserService)
+        loginUser(loginUserService)
     }
+}
+
+fun Route.loginUser(loginUserService: LoginUserService) {
+    post("/login") {
+        try {
+            val request = call.receiveNullable<AuthUserRequest>()
+            if (request != null) {
+                val simpleResponse = loginUserService.loginUser(request)
+                if (simpleResponse.successful){
+                    call.respond(HttpStatusCode.OK, simpleResponse)
+                } else  {
+                    call.respond(HttpStatusCode.BadRequest, simpleResponse)
+                }
+            } else {
+                call.respond(HttpStatusCode.BadRequest, ErrorCodes.UNKNOWN_ERROR.message)
+            }
+
+        } catch (e: ServerResponseException) {
+            application.log.error(e.message)
+            call.respond(HttpStatusCode.BadRequest)
+        }
+    }
+
 }
 
 
