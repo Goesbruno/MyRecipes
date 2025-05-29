@@ -1,6 +1,7 @@
 package br.com.goesbruno.myRecipes.domain.entity
 
 import br.com.goesbruno.myRecipes.domain.extensions.formatInstantToBrazilian
+import io.ktor.server.auth.Principal
 import kotlinx.datetime.Clock
 import org.bson.BsonType
 import org.bson.codecs.pojo.annotations.BsonId
@@ -16,4 +17,4 @@ data class User(
     @BsonRepresentation(BsonType.OBJECT_ID)
     override val id: String = ObjectId().toHexString(),
     override val createdAt: String = Clock.System.now().formatInstantToBrazilian()
-) : Basic()
+) : Basic(), Principal
