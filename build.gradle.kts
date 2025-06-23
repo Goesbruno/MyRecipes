@@ -50,7 +50,9 @@ dependencies {
     testImplementation("app.cash.turbine:turbine:1.1.0")
     testImplementation("io.mockk:mockk:1.13.10")
     testImplementation("com.google.truth:truth:1.4.2")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:2.1.10")
 
     testImplementation(libs.ktor.server.test.host)
+    testImplementation(libs.ktor.server.tests)
     testImplementation(libs.kotlin.test.junit)
 }

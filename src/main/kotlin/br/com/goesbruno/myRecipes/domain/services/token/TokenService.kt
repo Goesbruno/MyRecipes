@@ -27,7 +27,6 @@ class TokenService {
 
     fun generateToken(userId: String): String {
         return try {
-
             JWT.create()
                 .withSubject(userId)
                 .withAudience(audience)
@@ -38,23 +37,4 @@ class TokenService {
             throw IllegalArgumentException(ErrorCodes.TOKEN_GENERATION_ERROR.message)
         }
     }
-
-
-    fun retrieveUserIdByToken(token: String): String {
-        return try {
-
-           val decodedJwt = JWT.require(algorithm)
-               .withAudience(audience)
-               .withIssuer(issuer)
-               .build()
-               .verify(token)
-
-            decodedJwt.subject
-
-        } catch (e: JWTVerificationException) {
-            throw IllegalArgumentException(ErrorCodes.INVALID_TOKEN.message)
-        }
-    }
-
-
 }
