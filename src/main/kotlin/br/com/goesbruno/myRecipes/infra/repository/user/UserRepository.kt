@@ -1,22 +1,22 @@
 package br.com.goesbruno.myRecipes.infra.repository.user
 
+import br.com.goesbruno.myRecipes.domain.database.DatabaseService
 import br.com.goesbruno.myRecipes.domain.entity.User
 import br.com.goesbruno.myRecipes.utils.Constants
 import br.com.goesbruno.myRecipes.utils.ErrorCodes
 import com.mongodb.MongoException
 import com.mongodb.client.model.Filters
-import com.mongodb.kotlin.client.coroutine.MongoDatabase
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.toList
 import org.bson.types.ObjectId
 import org.slf4j.LoggerFactory
 
 class UserRepository(
-    mongoDatabase: MongoDatabase
+    databaseService: DatabaseService
 ) : UserWriteOnlyRepository, UserReadOnlyRepository{
 
     private val logger = LoggerFactory.getLogger(UserRepository::class.java)
-    private val usersCollection = mongoDatabase.getCollection<User>(Constants.COLLECTION_NAME_USERS)
+    private val usersCollection = databaseService.database.getCollection<User>(Constants.COLLECTION_NAME_USERS)
 
     override suspend fun insertUser(user: User): Boolean {
         try {
