@@ -8,9 +8,9 @@ class GetUserProfileService (
     private val userReadOnlyRepository: UserReadOnlyRepository
 ) {
 
-    suspend fun getUserProfileById(userId: String): UserResponse {
+    suspend fun getUserProfileById(userId: String): UserResponse? {
         val userModel = userReadOnlyRepository.findUserById(userId = userId)
-        return userModel.toUserReponse()
+        return userModel?.toUserReponse()
     }
 
 }
