@@ -1,11 +1,12 @@
 package br.com.goesbruno.myRecipes.application.routes
 
-import br.com.goesbruno.myRecipes.application.payloads.requests.AddUserRequest
+
 import br.com.goesbruno.myRecipes.application.payloads.requests.AuthUserRequest
+import br.com.goesbruno.myRecipes.application.payloads.requests.RegisterUserRequest
 import br.com.goesbruno.myRecipes.domain.extensions.getUserAuthentication
-import br.com.goesbruno.myRecipes.domain.services.user.AddUserService
 import br.com.goesbruno.myRecipes.domain.services.user.GetUserProfileService
 import br.com.goesbruno.myRecipes.domain.services.user.LoginUserService
+import br.com.goesbruno.myRecipes.domain.services.user.RegisterUserService
 import br.com.goesbruno.myRecipes.utils.Constants
 import br.com.goesbruno.myRecipes.utils.ErrorCodes
 import io.ktor.client.plugins.*
@@ -17,21 +18,21 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Route.usersRoute(
-    addUserService: AddUserService,
+    registerUserService: RegisterUserService,
     loginUserService: LoginUserService,
     getUserProfileService: GetUserProfileService
 ) {
     route(Constants.USER_ROUTE) {
-        createUser(addUserService)
-        loginUser(loginUserService)
+        register(registerUserService)
+        login(loginUserService)
 
         authenticate {
-            getUserProfile(getUserProfileService)
+            getProfile(getUserProfileService)
         }
     }
 }
 
-fun Route.loginUser(loginUserService: LoginUserService) {
+fun Route.login(loginUserService: LoginUserService) {
     post("/login") {
         try {
             val request = call.receiveNullable<AuthUserRequest>()
@@ -55,12 +56,12 @@ fun Route.loginUser(loginUserService: LoginUserService) {
 }
 
 
-fun Route.createUser(addUserService: AddUserService) {
+fun Route.register(registerUserService: RegisterUserService) {
     post("/register") {
         try {
-            val request = call.receiveNullable<AddUserRequest>()
+            val request = call.receiveNullable<RegisterUserRequest>()
             if (request != null) {
-                val simpleResponse = addUserService.addUser(request)
+                val simpleResponse = registerUserService.register(request)
                 if (simpleResponse.successful) {
                     call.respond(HttpStatusCode.Created, simpleResponse)
                 } else {
@@ -79,7 +80,7 @@ fun Route.createUser(addUserService: AddUserService) {
 }
 
 
-fun Route.getUserProfile(getUserProfileService: GetUserProfileService) {
+fun Route.getProfile(getUserProfileService: GetUserProfileService) {
 
     get("/profile") {
         try {

@@ -1,20 +1,20 @@
 package br.com.goesbruno.myRecipes.domain.validations
 
-import br.com.goesbruno.myRecipes.application.payloads.requests.AddUserRequest
+import br.com.goesbruno.myRecipes.application.payloads.requests.RegisterUserRequest
 import br.com.goesbruno.myRecipes.application.payloads.responses.SimpleResponse
 import br.com.goesbruno.myRecipes.utils.ErrorCodes
 import br.com.goesbruno.myRecipes.utils.SuccessCodes
 
 
 interface AddUserRequestValidation {
-    suspend fun validator(request: AddUserRequest): SimpleResponse
+    suspend fun validator(request: RegisterUserRequest): SimpleResponse
 }
 
 class AddUserRequestValidationImpl : AddUserRequestValidation {
     private val emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$".toRegex()
     private val phoneRegex = "[0-9]{2} [1-9]{1} [0-9]{4}-[0-9]{4}".toRegex()
 
-    override suspend fun validator(request: AddUserRequest): SimpleResponse {
+    override suspend fun validator(request: RegisterUserRequest): SimpleResponse {
         return when {
             request.name.isEmpty() -> SimpleResponse(
                 successful = false,

@@ -2,7 +2,7 @@ package br.com.goesbruno.myRecipes.application.payloads.requests
 
 import com.google.gson.annotations.SerializedName
 
-data class AddUserRequest(
+data class RegisterUserRequest(
     @SerializedName("name")
     val name: String,
     @SerializedName("email")

@@ -36,6 +36,9 @@ dependencies {
     implementation(libs.ktor.server.netty)
     implementation(libs.logback.classic)
 
+    implementation("io.ktor:ktor-client-auth-jvm")
+    implementation("io.ktor:ktor-client-content-negotiation-jvm")
+
     implementation("io.github.g0dkar:qrcode-kotlin:4.1.0")
 
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")

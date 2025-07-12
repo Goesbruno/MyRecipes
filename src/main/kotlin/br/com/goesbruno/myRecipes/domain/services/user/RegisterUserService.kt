@@ -1,6 +1,6 @@
 package br.com.goesbruno.myRecipes.domain.services.user
 
-import br.com.goesbruno.myRecipes.application.payloads.requests.AddUserRequest
+import br.com.goesbruno.myRecipes.application.payloads.requests.RegisterUserRequest
 import br.com.goesbruno.myRecipes.application.payloads.responses.SimpleResponse
 import br.com.goesbruno.myRecipes.domain.entity.User
 import br.com.goesbruno.myRecipes.domain.services.password.BCryptPasswordService
@@ -11,31 +11,31 @@ import br.com.goesbruno.myRecipes.utils.Constants
 import br.com.goesbruno.myRecipes.utils.ErrorCodes
 import br.com.goesbruno.myRecipes.utils.SuccessCodes
 
-class AddUserService(
+class RegisterUserService(
     private val addUserRequestValidation: AddUserRequestValidation,
     private val bCryptPasswordService: BCryptPasswordService,
     private val userWriteOnlyRepository: UserWriteOnlyRepository,
     private val userReadOnlyRepository: UserReadOnlyRepository
 ) {
 
-    suspend fun addUser(addUserRequest: AddUserRequest): SimpleResponse {
+    suspend fun register(registerUserRequest: RegisterUserRequest): SimpleResponse {
 
-        val simpleResponse = addUserRequestValidation.validator(addUserRequest)
+        val simpleResponse = addUserRequestValidation.validator(registerUserRequest)
         if (!simpleResponse.successful){
             return simpleResponse
         }
 
-        if (userReadOnlyRepository.checkIfUserExists(addUserRequest.email)){
+        if (userReadOnlyRepository.checkIfUserExists(registerUserRequest.email)){
             return SimpleResponse(successful = false, message = ErrorCodes.EMAIL_ALREADY_USED.message)
         }
 
-        val hashedPassword = bCryptPasswordService.hashedPassword(Constants.COST_FACTOR, addUserRequest.password)
+        val hashedPassword = bCryptPasswordService.hashedPassword(Constants.COST_FACTOR, registerUserRequest.password)
 
         val user = User(
-            name = addUserRequest.name,
-            email = addUserRequest.email,
+            name = registerUserRequest.name,
+            email = registerUserRequest.email,
             password = hashedPassword,
-            phone = addUserRequest.phone
+            phone = registerUserRequest.phone
         )
         val result = userWriteOnlyRepository.insertUser(user)
         return if (result){

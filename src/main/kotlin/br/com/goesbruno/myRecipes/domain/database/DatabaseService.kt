@@ -11,7 +11,7 @@ class DatabaseService(
     private val logger = LoggerFactory.getLogger(DatabaseService::class.java)
 
     val client = MongoClient.create(
-        connectionString = appConfig.applicationConfig.property("database.mongodb_uri_local").getString()
+        connectionString = appConfig.applicationConfig.property("database.mongodb_uri").getString()
     )
 
     val database = client.getDatabase(
@@ -20,6 +20,8 @@ class DatabaseService(
 
     init {
         logger.info("Database Service was initialized")
+        logger.info("Database Name ${appConfig.applicationConfig.property("database.database_name").getString()}")
+        logger.info("MongoDb URI ${appConfig.applicationConfig.property("database.mongodb_uri").getString()}")
     }
 
     fun close() {
