@@ -36,20 +36,26 @@ dependencies {
     implementation(libs.ktor.server.netty)
     implementation(libs.logback.classic)
 
+    implementation("io.ktor:ktor-client-auth-jvm")
+    implementation("io.ktor:ktor-client-content-negotiation-jvm")
+
     implementation("io.github.g0dkar:qrcode-kotlin:4.1.0")
 
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
 
     implementation("io.insert-koin:koin-ktor:3.5.1")
+    implementation("io.insert-koin:koin-logger-slf4j:3.5.1")
 
-    implementation("org.mongodb:mongodb-driver-kotlin-coroutine:4.11.1")
+    implementation("org.mongodb:mongodb-driver-kotlin-coroutine:5.1.0")
 
     implementation("at.favre.lib:bcrypt:0.10.2")
 
     testImplementation("app.cash.turbine:turbine:1.1.0")
     testImplementation("io.mockk:mockk:1.13.10")
     testImplementation("com.google.truth:truth:1.4.2")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:2.1.10")
 
     testImplementation(libs.ktor.server.test.host)
+    testImplementation(libs.ktor.server.tests)
     testImplementation(libs.kotlin.test.junit)
 }
