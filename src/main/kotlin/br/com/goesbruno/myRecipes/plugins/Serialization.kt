@@ -9,11 +9,10 @@ import io.ktor.server.routing.*
 fun Application.configureSerialization() {
     install(ContentNegotiation) {
         gson {
-            }
+            setLenient()
+            serializeNulls()
+            setPrettyPrinting()
+        }
     }
-    routing {
-        get("/json/gson") {
-                call.respond(mapOf("hello" to "world"))
-            }
-    }
+
 }
