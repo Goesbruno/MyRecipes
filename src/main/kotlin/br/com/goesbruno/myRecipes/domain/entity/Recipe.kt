@@ -16,6 +16,6 @@ data class Recipe(
     val ingredients: List<Ingredient> = listOf(),
     @BsonId
     @BsonRepresentation(BsonType.OBJECT_ID)
-    override val id: String = ObjectId().toString(),
+    override val id: String,
     override val createdAt: String = Clock.System.now().formatInstantToBrazilian()
 ): Basic()

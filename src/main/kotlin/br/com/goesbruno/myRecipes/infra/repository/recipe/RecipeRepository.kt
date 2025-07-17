@@ -5,22 +5,18 @@ import br.com.goesbruno.myRecipes.domain.database.DatabaseService
 import br.com.goesbruno.myRecipes.domain.entity.CategoryEnum
 import br.com.goesbruno.myRecipes.domain.entity.Ingredient
 import br.com.goesbruno.myRecipes.domain.entity.Recipe
-import br.com.goesbruno.myRecipes.domain.entity.User
-import br.com.goesbruno.myRecipes.infra.repository.user.UserRepository
 import br.com.goesbruno.myRecipes.utils.Constants
 import br.com.goesbruno.myRecipes.utils.ErrorCodes
 import com.mongodb.MongoException
-import com.mongodb.client.model.DeleteOptions
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates
 import kotlinx.coroutines.flow.toList
 import org.bson.types.ObjectId
 import org.slf4j.LoggerFactory
-import javax.sql.rowset.FilteredRowSet
 
 class RecipeRepository(
     val databaseService: DatabaseService
-) : RecipesWriteOnlyRepository, RecipesReadOnlyRepository {
+) : RecipeWriteOnlyRepository, RecipeReadOnlyRepository {
 
     private val logger = LoggerFactory.getLogger(RecipeRepository::class.java)
     private val recipesCollection = databaseService.database.getCollection<Recipe>(Constants.COLLECTION_NAME_RECIPES)

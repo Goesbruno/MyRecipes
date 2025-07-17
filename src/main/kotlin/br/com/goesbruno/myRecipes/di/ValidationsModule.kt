@@ -4,6 +4,8 @@ import br.com.goesbruno.myRecipes.domain.validations.AddUserRequestValidation
 import br.com.goesbruno.myRecipes.domain.validations.AddUserRequestValidationImpl
 import br.com.goesbruno.myRecipes.domain.validations.AuthUserRequestValidation
 import br.com.goesbruno.myRecipes.domain.validations.AuthUserRequestValidationImpl
+import br.com.goesbruno.myRecipes.domain.validations.RecipeRequestValidation
+import br.com.goesbruno.myRecipes.domain.validations.RecipeRequestValidationImpl
 import org.koin.dsl.module
 
 object ValidationsModule {
@@ -11,6 +13,7 @@ object ValidationsModule {
     val module = module {
         single<AddUserRequestValidation> { AddUserRequestValidationImpl() }
         single< AuthUserRequestValidation> { AuthUserRequestValidationImpl() }
+        single< RecipeRequestValidation> { RecipeRequestValidationImpl() }
 
     }
 }
