@@ -40,7 +40,7 @@ class CreateRecipeService(
         return if (result) {
             SimpleResponse(
                 successful = true,
-                message = SuccessCodes.REGISTRATION_COMPLETED.message
+                message = SuccessCodes.RECIPE_REGISTRATION_SUCCESS.message
             )
         } else {
             SimpleResponse(

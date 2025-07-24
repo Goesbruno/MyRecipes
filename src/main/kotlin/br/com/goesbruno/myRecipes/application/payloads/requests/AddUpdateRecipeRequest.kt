@@ -1,6 +1,5 @@
 package br.com.goesbruno.myRecipes.application.payloads.requests
 
-import br.com.goesbruno.myRecipes.domain.entity.Ingredient
 import com.google.gson.annotations.SerializedName
 
 data class AddUpdateRecipeRequest(
