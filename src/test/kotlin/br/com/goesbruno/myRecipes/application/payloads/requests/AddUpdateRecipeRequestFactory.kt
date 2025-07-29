@@ -1,6 +1,6 @@
 package br.com.goesbruno.myRecipes.application.payloads.requests
 
-class RecipeRequestValidationFactory {
+class AddUpdateRecipeRequestFactory {
 
     fun create() = AddUpdateRecipeRequest(
     name = "Lasanha",

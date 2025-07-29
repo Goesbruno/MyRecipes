@@ -1,7 +1,7 @@
 package br.com.goesbruno.myRecipes.domain.validations
 
 import br.com.goesbruno.br.com.goesbruno.myRecipes.domain.model.UserFactory
-import br.com.goesbruno.myRecipes.application.payloads.requests.RecipeRequestValidationFactory
+import br.com.goesbruno.myRecipes.application.payloads.requests.AddUpdateRecipeRequestFactory
 import br.com.goesbruno.myRecipes.utils.ErrorCodes
 import br.com.goesbruno.myRecipes.utils.SuccessCodes
 import com.google.common.truth.Truth.assertThat
@@ -13,7 +13,7 @@ class RecipeRequestValidationImplTest {
 
     private lateinit var addValidationRecipeRequest: RecipeRequestValidation
 
-    private val request = RecipeRequestValidationFactory().create()
+    private val request = AddUpdateRecipeRequestFactory().create()
     private val userAna = UserFactory().create(UserFactory.FakeUser.Ana)
 
     @BeforeTest
