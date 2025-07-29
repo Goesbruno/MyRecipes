@@ -114,7 +114,7 @@ class RecipeRoutesTest {
 
         val responseBody = response.body<List<RecipeResponse>>()
 
-        
+
         assertThat(responseBody).isNotEmpty()
 
     }

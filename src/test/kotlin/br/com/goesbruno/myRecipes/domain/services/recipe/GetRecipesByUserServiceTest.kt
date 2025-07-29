@@ -16,7 +16,7 @@ import kotlin.test.Test
 
 class GetRecipesByUserServiceTest {
 
-    private lateinit var getRecipesByUserService: GetRecipesByUserService
+    private lateinit var getUserRecipesService: GetUserRecipesService
     private lateinit var recipeReadOnlyRepository: RecipeReadOnlyRepository
 
     private val userAna = UserFactory().create(UserFactory.FakeUser.Ana)
@@ -29,7 +29,7 @@ class GetRecipesByUserServiceTest {
     @BeforeTest
     fun setUp() {
         recipeReadOnlyRepository = mockk()
-        getRecipesByUserService = GetRecipesByUserService(recipeReadOnlyRepository)
+        getUserRecipesService = GetUserRecipesService(recipeReadOnlyRepository)
     }
 
     @AfterTest
@@ -43,7 +43,7 @@ class GetRecipesByUserServiceTest {
         val recipesAna = listOf(recipesAna)
         coEvery { recipeReadOnlyRepository.getByUser(userId, null) } returns recipesAna
 
-        val result = getRecipesByUserService.getAll(userId, null)
+        val result = getUserRecipesService.getAll(userId, null)
         val expectedRecipesResponse = recipesAna.map { it.toRecipeResponse() }
 
         assertThat(result).isEqualTo(expectedRecipesResponse)

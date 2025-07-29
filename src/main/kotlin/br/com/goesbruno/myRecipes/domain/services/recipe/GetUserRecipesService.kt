@@ -5,7 +5,7 @@ import br.com.goesbruno.myRecipes.application.payloads.responses.RecipeResponse
 import br.com.goesbruno.myRecipes.domain.entity.CategoryEnum
 import br.com.goesbruno.myRecipes.infra.repository.recipe.RecipeReadOnlyRepository
 
-class GetRecipesByUserService(
+class GetUserRecipesService(
     private val recipesReadOnlyRepository: RecipeReadOnlyRepository
 ) {
 

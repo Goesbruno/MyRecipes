@@ -3,7 +3,7 @@ package br.com.goesbruno.myRecipes.plugins
 import br.com.goesbruno.myRecipes.application.routes.recipeRoutes
 import br.com.goesbruno.myRecipes.application.routes.usersRoute
 import br.com.goesbruno.myRecipes.domain.services.recipe.CreateRecipeService
-import br.com.goesbruno.myRecipes.domain.services.recipe.GetRecipesByUserService
+import br.com.goesbruno.myRecipes.domain.services.recipe.GetUserRecipesService
 import br.com.goesbruno.myRecipes.domain.services.user.RegisterUserService
 import br.com.goesbruno.myRecipes.domain.services.user.GetUserProfileService
 import br.com.goesbruno.myRecipes.domain.services.user.LoginUserService
@@ -17,10 +17,10 @@ fun Application.configureRouting() {
     val loginUserService by inject<LoginUserService>()
     val getUserProfileService by inject<GetUserProfileService>()
     val createRecipeService by inject<CreateRecipeService>()
-    val getRecipesByUserService by inject<GetRecipesByUserService>()
+    val getUserRecipesService by inject<GetUserRecipesService>()
 
     install(Routing){
         usersRoute(registerUserService, loginUserService, getUserProfileService)
-        recipeRoutes(createRecipeService, getRecipesByUserService)
+        recipeRoutes(createRecipeService, getUserRecipesService)
     }
 }

@@ -2,7 +2,7 @@ package br.com.goesbruno.myRecipes.di
 
 import br.com.goesbruno.myRecipes.domain.services.password.BCryptPasswordService
 import br.com.goesbruno.myRecipes.domain.services.recipe.CreateRecipeService
-import br.com.goesbruno.myRecipes.domain.services.recipe.GetRecipesByUserService
+import br.com.goesbruno.myRecipes.domain.services.recipe.GetUserRecipesService
 import br.com.goesbruno.myRecipes.domain.services.token.TokenService
 import br.com.goesbruno.myRecipes.domain.services.user.RegisterUserService
 import br.com.goesbruno.myRecipes.domain.services.user.GetUserByIdService
@@ -36,7 +36,7 @@ object ServiceModule {
         single<BCryptPasswordService> { BCryptPasswordService() }
 
         single<CreateRecipeService> { CreateRecipeService(get(), get()) }
-        single<GetRecipesByUserService> { GetRecipesByUserService(get()) }
+        single<GetUserRecipesService> { GetUserRecipesService(get()) }
     }
 
 }

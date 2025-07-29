@@ -3,7 +3,7 @@ package br.com.goesbruno.myRecipes.application.routes
 import br.com.goesbruno.myRecipes.application.payloads.requests.AddUpdateRecipeRequest
 import br.com.goesbruno.myRecipes.domain.extensions.getUserAuthentication
 import br.com.goesbruno.myRecipes.domain.services.recipe.CreateRecipeService
-import br.com.goesbruno.myRecipes.domain.services.recipe.GetRecipesByUserService
+import br.com.goesbruno.myRecipes.domain.services.recipe.GetUserRecipesService
 import br.com.goesbruno.myRecipes.utils.Constants
 import io.ktor.client.plugins.ServerResponseException
 import io.ktor.http.HttpStatusCode
@@ -20,13 +20,13 @@ import io.ktor.server.routing.route
 
 fun Route.recipeRoutes(
     createRecipeService: CreateRecipeService,
-    getRecipesByUserService: GetRecipesByUserService
+    getUserRecipesService: GetUserRecipesService
 ) {
 
     route(Constants.RECIPE_ROUTE) {
         authenticate {
             create(createRecipeService)
-            getAll(getRecipesByUserService)
+            getAll(getUserRecipesService)
         }
     }
 
@@ -56,12 +56,12 @@ fun Route.create(createRecipeService: CreateRecipeService) {
     }
 }
 
-fun Route.getAll(getRecipesByUserService: GetRecipesByUserService) {
+fun Route.getAll(getUserRecipesService: GetUserRecipesService) {
     get {
         val userId = call.getUserAuthentication()
         try {
             val category = call.parameters[Constants.PARAM_CATEGORY]?.toIntOrNull()
-            val recipes = getRecipesByUserService.getAll(userId, category)
+            val recipes = getUserRecipesService.getAll(userId, category)
             call.respond(HttpStatusCode.OK, recipes)
         } catch (e: ServerResponseException) {
             application.log.error(e.message)
