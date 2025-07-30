@@ -6,21 +6,16 @@ import br.com.goesbruno.myRecipes.application.payloads.responses.RecipeResponse
 import br.com.goesbruno.myRecipes.application.payloads.responses.SimpleResponse
 import br.com.goesbruno.myRecipes.application.payloads.responses.TokenResponse
 import com.google.common.truth.Truth.assertThat
-import io.ktor.client.call.body
-import io.ktor.client.plugins.auth.Auth
-import io.ktor.client.plugins.auth.providers.BearerTokens
-import io.ktor.client.plugins.auth.providers.bearer
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.request.get
-import io.ktor.client.request.post
-import io.ktor.client.request.setBody
-import io.ktor.client.statement.bodyAsText
-import io.ktor.http.ContentType
-import io.ktor.http.HttpStatusCode
-import io.ktor.http.contentType
-import io.ktor.serialization.gson.gson
+import io.ktor.client.call.*
+import io.ktor.client.plugins.auth.*
+import io.ktor.client.plugins.auth.providers.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
+import io.ktor.serialization.gson.*
 import io.ktor.server.config.*
-import io.ktor.server.testing.testApplication
+import io.ktor.server.testing.*
 import kotlin.test.Test
 
 class RecipeRoutesTest {
@@ -107,6 +102,51 @@ class RecipeRoutesTest {
 
         val response = client.get("api/v1/recipes") {
             contentType(ContentType.Application.Json)
+        }
+
+        val responseText = response.bodyAsText()
+        println("ResponseText: $responseText")
+
+        val responseBody = response.body<List<RecipeResponse>>()
+
+
+        assertThat(responseBody).isNotEmpty()
+
+    }
+
+    @Test
+    fun search() = testApplication {
+
+        environment { applicationConfig }
+
+        var client = createClient {
+            install(ContentNegotiation){
+                gson()
+            }
+        }
+
+        val responseLogin = client.post("api/v1/users/login"){
+            contentType(ContentType.Application.Json)
+            setBody(authUserRequest)
+        }
+        val tokenResponse = responseLogin.body<TokenResponse>()
+
+        client = createClient {
+            install(ContentNegotiation){
+                gson()
+            }
+            install(Auth){
+                bearer {
+                    loadTokens {
+                        BearerTokens(tokenResponse.token.orEmpty(), tokenResponse.token.orEmpty())
+                    }
+                }
+            }
+        }
+
+        val response = client.get("api/v1/recipes/search") {
+            contentType(ContentType.Application.Json)
+            parameter("nameOrIngredient", "lasa")
         }
 
         val responseText = response.bodyAsText()

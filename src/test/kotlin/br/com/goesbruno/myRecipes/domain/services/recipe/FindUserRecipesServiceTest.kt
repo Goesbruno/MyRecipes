@@ -9,14 +9,14 @@ import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import java.util.UUID
+import java.util.*
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
-class GetRecipesByUserServiceTest {
+class FindUserRecipesServiceTest {
 
-    private lateinit var getUserRecipesService: GetUserRecipesService
+    private lateinit var findUserRecipesService: FindUserRecipesService
     private lateinit var recipeReadOnlyRepository: RecipeReadOnlyRepository
 
     private val userAna = UserFactory().create(UserFactory.FakeUser.Ana)
@@ -29,7 +29,7 @@ class GetRecipesByUserServiceTest {
     @BeforeTest
     fun setUp() {
         recipeReadOnlyRepository = mockk()
-        getUserRecipesService = GetUserRecipesService(recipeReadOnlyRepository)
+        findUserRecipesService = FindUserRecipesService(recipeReadOnlyRepository)
     }
 
     @AfterTest
@@ -38,15 +38,26 @@ class GetRecipesByUserServiceTest {
     }
 
     @Test
-    fun `should return a list of recipeResponse from the user`() = runBlocking {
+    fun `should return a list of user's recipes when a valid query is provided`() = runBlocking {
         val userId = userAna.id
-        val recipesAna = listOf(recipesAna)
-        coEvery { recipeReadOnlyRepository.getByUser(userId, null) } returns recipesAna
+        val recipeList = listOf(recipesAna)
+        val nameOrIngredient = "Lasanha"
+        coEvery { recipeReadOnlyRepository.search(eq(nameOrIngredient), eq(userId)) } returns recipeList
 
-        val result = getUserRecipesService.getAll(userId, null)
-        val expectedRecipesResponse = recipesAna.map { it.toRecipeResponse() }
+        val response = findUserRecipesService.search(nameOrIngredient, userId)
+        val expectedResponse = recipeList.map { it.toRecipeResponse() }
 
-        assertThat(result).isEqualTo(expectedRecipesResponse)
+        assertThat(response).isEqualTo(expectedResponse)
     }
 
+    @Test
+    fun `should return a empty list when a invalid query is provided`() = runBlocking {
+        val userId = userAna.id
+        val nameOrIngredient = ""
+        coEvery { recipeReadOnlyRepository.search(eq(nameOrIngredient), eq(userId)) } returns emptyList()
+
+        val response = findUserRecipesService.search(nameOrIngredient, userId)
+
+        assertThat(response).isEmpty()
+    }
 }
